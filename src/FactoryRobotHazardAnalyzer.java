@@ -1,15 +1,16 @@
 import java.util.Scanner;
 
-// UC6: Enhanced hazard risk calculation
 // UC7: Final integration and user-friendly output
+// UC8: Final cleanup and graceful termination
 public class FactoryRobotHazardAnalyzer {
 
     public static void main(String[] args) {
 
-        System.out.println("Factory Robot Hazard Analyzer");
-        System.out.println("====================================");
-
         Scanner scanner = new Scanner(System.in);
+
+        System.out.println("====================================");
+        System.out.println("   Factory Robot Hazard Analyzer");
+        System.out.println("====================================");
 
         try {
             // UC2: Accept inputs
@@ -27,7 +28,6 @@ public class FactoryRobotHazardAnalyzer {
             // UC5: Validation
             validateInputs(armPrecision, workerDensity, machineryState);
 
-            // UC6: Hazard calculation
             RobotHazardAuditor auditor = new RobotHazardAuditor();
             double hazardRiskScore =
                     auditor.calculateHazardRisk(
@@ -48,10 +48,58 @@ public class FactoryRobotHazardAnalyzer {
             System.out.println("Hazard Analysis Failed");
             System.out.println(e.getMessage());
             System.out.println("------------------------------------");
+        } finally {
+            // UC8: Graceful cleanup
+            scanner.close();
+            System.out.println("Program execution completed.");
         }
-
-        scanner.close();
     }
 
-    private static void validateInputs(double arm
+    // UC5: Validation logic (unchanged)
+    private static void validateInputs(double armPrecision,
+                                       int workerDensity,
+                                       String machineryState)
+            throws InvalidHazardInputException {
+
+        if (armPrecision < 0.0 || armPrecision > 1.0) {
+            throw new InvalidHazardInputException(
+                    "Error: Arm precision must be between 0.0 and 1.0"
+            );
+        }
+
+        if (workerDensity < 0 || workerDensity > 20) {
+            throw new InvalidHazardInputException(
+                    "Error: Worker density must be between 0 and 20"
+            );
+        }
+
+        if (!machineryState.equalsIgnoreCase("NORMAL") &&
+                !machineryState.equalsIgnoreCase("CRITICAL")) {
+
+            throw new InvalidHazardInputException(
+                    "Error: Machinery state must be NORMAL or CRITICAL"
+            );
+        }
+    }
+}
+
+/*
+ * UC6: Auditor class (unchanged)
+ * Hazard calculation logic (UC6)
+ */
+class RobotHazardAuditor {
+
+    public double calculateHazardRisk(double armPrecision,
+                                      int workerDensity,
+                                      String machineryState) {
+
+        double riskScore = armPrecision * workerDensity;
+
+        if (machineryState.equalsIgnoreCase("CRITICAL")) {
+            riskScore = riskScore * 1.5;
+        }
+
+        return riskScore;
+    }
+}
 
