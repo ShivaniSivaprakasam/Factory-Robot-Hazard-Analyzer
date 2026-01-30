@@ -1,5 +1,6 @@
 import java.util.Scanner;
 
+
 public class FactoryRobotHazardAnalyzer {
 
     public static void main(String[] args) {
@@ -20,6 +21,7 @@ public class FactoryRobotHazardAnalyzer {
 
         scanner.nextLine(); // clear buffer
 
+        scanner.nextLine();
 
         System.out.print("Enter Machinery State: ");
         String machineryState = scanner.nextLine();
@@ -28,7 +30,34 @@ public class FactoryRobotHazardAnalyzer {
         System.out.println("Arm Precision: " + armPrecision);
         System.out.println("Worker Density: " + workerDensity);
         System.out.println("Machinery State: " + machineryState);
+        RobotHazardAuditor auditor = new RobotHazardAuditor();
+        double hazardRiskScore = auditor.calculateHazardRisk(
+                armPrecision,
+                workerDensity,
+                machineryState
+        );
+
+
+        System.out.println("Robot Hazard Risk Score: " + hazardRiskScore);
 
         scanner.close();
+    }
+}
+
+
+class RobotHazardAuditor {
+
+    public double calculateHazardRisk(double armPrecision,
+                                      int workerDensity,
+                                      String machineryState) {
+
+        double riskScore = armPrecision * workerDensity;
+
+        if (machineryState.equalsIgnoreCase("CRITICAL")) {
+            riskScore = riskScore * 1.5;
+        }
+
+
+        return riskScore;
     }
 }
