@@ -23,3 +23,7 @@ jobs:
     - name: Compile Java files
       run: |
         javac src/*.java
+
+    - name: Run program
+      run: |
+        java -cp src FactoryRobotHazardAnalyzer
