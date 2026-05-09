@@ -24,6 +24,7 @@ jobs:
       run: |
         javac src/*.java
 
-    - name: Run program with test input
+    - name: Run and verify output
       run: |
-        printf "0.9\n80\n70\n60\n" | java -cp src FactoryRobotHazardAnalyzer
+        output=$(echo "0.9 80 70 60" | java -cp src FactoryRobotHazardAnalyzer)
+        echo "$output"
