@@ -24,6 +24,6 @@ jobs:
       run: |
         javac src/*.java
 
-    - name: Run program
+    - name: Run program with test input
       run: |
-        java -cp src FactoryRobotHazardAnalyzer
+        printf "0.9\n80\n70\n60\n" | java -cp src FactoryRobotHazardAnalyzer
